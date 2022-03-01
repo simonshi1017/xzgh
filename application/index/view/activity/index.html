@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>列表页</title>
+    <link rel="stylesheet" href="__CSS__/index.css?version={:time()}">
+</head>
+<body>
+  <div >
+       <div class="items-list">
+           {volist name="list" id="vo"}
+           <div class="activity-item">
+               <a href="detail?id={$vo.id}">
+               <div class="item-div">
+                   <img src="__IMG__/{$vo.img_url}" class="item-logo-img">
+               </div>
+               <div class="item-div">
+                   <div class="item-div-con item-title">{$vo.name}</div>
+                   <div class="item-div-con item-child">
+                       <i class="item-time">{$vo.created_at}</i>
+                       {eq name="vo.status" value="进行中"}
+                          <i class="item-status item-status-start">{$vo.status}</i>
+                       {else/}
+                           <i class="item-status item-status-end">{$vo.status}</i>
+                       {/eq}
+                   </div>
+               </div>
+               </a>
+           </div>
+           {/volist}
+       </div>
+  </div>
+</body>
+</html>

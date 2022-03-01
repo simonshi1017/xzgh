@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html style="height:100%;">
+<head>
+    <meta charset="UTF-8">
+    <title>莘庄工会管理后台后台</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/login.css"/>
+</head>
+<body class="login_warp">
+    
+    <!--<div class="log_img"><img src="__IMG__/logo.jpg"></div>-->
+
+    <div class="login_cons">
+        <div class="login_input">
+
+            <form action="{:url('login/checkLogin')}" method="post" id="commentForm">
+                <p class="denglu">莘庄工会管理后台登录</p>
+                <p class="user_input"><input type="text" id="username" name="username" placeholder="请输入用户名" /></p>
+                <p class="password_input"><input type="password" id="password" name="password" placeholder="请输入密码" /></p>
+                <input type="submit" value="登录" class="login_sbm" style="margin-bottom: 0px;padding-left: 0px;font-size:20px;">
+                <p class="tip_tishi"></p>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="__JS__/jquery.min.js"></script>
+    <script src="__JS__/jquery.form.js"></script>
+    <script>
+        $(function () {
+            $('#commentForm').ajaxForm({
+                beforeSubmit:  checkForm,
+                success:  complete,
+                dataType: 'json'
+            });
+            //表单判断
+            function checkForm(){
+                var username = $("#username").val();
+                var password = $("#password").val();
+                if(username == ""){
+                    $(".tip_tishi").html("请输入用户名！");
+                    $("#username").focus();
+                    return false;
+                }else if(password == ""){
+                    $(".tip_tishi").html("请输入密码！");
+                    $("#password").focus();
+                    return false;
+                }
+            }
+            //表单提交后返回结果
+            function complete(data){
+                if(data.code == 1){
+                    window.location.href=data.url;
+                }else{
+                    $(".tip_tishi").html(data.msg);
+                    return false;
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

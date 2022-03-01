@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0 "/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<title>您没有操作权限</title>
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+
+	<link rel="stylesheet" type="text/css" href="/static/index/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/index/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/static/index/css/common.css"/>
+	<script type="text/javascript" src="/static/index/js/jquery-1.7.1.min.js"></script>
+</head>
+<body style="background-color: #fff;">
+	<div>
+		<h1>您没有操作权限...</h1>
+	</div>
+	<script type="text/javascript">
+		$(".id_txt1").mouseover(function (){  
+			$(".id_weima").show();  
+        }).mouseout(function (){  
+            $(".id_weima").hide();  
+        });
+		(function(){
+			var wait = document.getElementById('wait'),
+					href = document.getElementById('href').href;
+			var interval = setInterval(function(){
+				var time = --wait.innerHTML;
+				if(time <= 0) {
+					location.href = href;
+					clearInterval(interval);
+				};
+			}, 1000);
+		})();
+	</script>
+</body>
+</html>

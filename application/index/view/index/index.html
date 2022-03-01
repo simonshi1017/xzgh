@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>列表页</title>
+    <link  type="text/css" href="css/index.css">
+    <style type="text/css">
+        body{
+            font-size: 12pt;
+            color:#0C0C0C;
+        }
+        .item-logo-img{
+            width: 120px;
+            height: 80px;
+            align-items: center;
+        }
+        .activity-item{
+            display: flex;
+            flex-direction:row;
+        }
+        .activity-item .item-div{
+            height: 60px;
+            margin: 5px 5px;
+        }
+       .item-title{
+           width:100%;
+        }
+        .activity-item .item-div:nth-child(2){
+            width: 100%;
+        }
+        .item-status{
+            margin-right: 10px !important;
+        }
+        .activity-item{
+            margin: 40px 5px;
+        }
+        .activity-item:nth-child(1){
+            margin: 0px 5px;
+        }
+        .item-status-dom{
+            font-style: normal;
+            color: red;
+        }
+        .item-time{
+            font-size: 10pt;
+            color: #ccc;
+        }
+        .item-child i{
+            font-style: normal;
+        }
+        .item-status{
+            float: right;
+            color: red;
+            font-size: 10pt;
+        }
+        .item-div-con:nth-child(2){
+            margin-top: 20px;
+        }
+        .item-status-end{
+            opacity: 30%;
+        }
+        .item-title a{
+           text-decoration: none;
+           color:#0C0C0C;
+        }
+    </style>
+</head>
+<body>
+  <div >
+       <div class="items-list">
+           {volist name="list" id="vo"}
+           <div class="activity-item">
+               <div class="item-div">
+                   <img src="img/t1.png" class="item-logo-img" >
+               </div>
+               <div class="item-div">
+                   <div class="item-div-con item-title">
+                       <a href="{:url('detail')}">{$vo.name}</a></div>
+                   <div class="item-div-con item-child">
+                       <i class="item-time">{{$vo.created_at}}</i>
+                       {eq name="vo.status" value="进行中"}
+                          <i class="item-status item-status-start">{$vo.status}</i>
+                       {else/}
+                           <i class="item-status item-status-end">{$vo.status}</i>
+                       {/eq}
+                   </div>
+               </div>
+           </div>
+           {/volist}
+       </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动管理</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/animate.min.css" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/style.min.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/jscal2.css" rel="stylesheet">
+
+    <!--<script src="__JS__/jquery.min.js"></script>-->
+    <script src="__JS__/jquery-1.10.2.js"></script>
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <script src="__JS__/plugins/layer/layer.min.js"></script>
+    <script src="__JS__/jquery.form.js"></script>
+    <script src="__JS__/calendar.js"></script>
+    <script src="__JS__/en.js"></script>
+
+    <link href="__CSS__/bootstrap-select.css" rel="stylesheet">
+    <script src="__JS__/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap-select.js"></script>
+    <script language="javascript" type="text/javascript" src="__JS__/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <style type="text/css">
+        .item-date{
+            border: 1px solid #e5e6e7;
+            height: 34px;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>活动发布</h5>
+                    </div>
+                    <div class="ibox-content">
+                           <form class="form-horizontal m-t" action="{:url('save');}" method="post" id="form1" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">活动名称：</label>
+                                <div class="input-group col-sm-4">
+                                    <input id="name" type="text" class="form-control" name="name" required="">
+                                </div>
+                            </div>
+                           <div class="form-group">
+                               <label class="col-sm-3 control-label">开始时间：</label>
+                               <div class="input-group col-sm-4">
+                                   <input class="item-date Wdate form-control" type="text"  name="begin_at" autocomplete="off" id="begin_at" style="width:200px"
+                                          onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <label class="col-sm-3 control-label">结束时间：</label>
+                               <div class="input-group col-sm-4">
+                                   <input class="item-date Wdate form-control" type="text"  name="end_at" autocomplete="off" id="end_at" style="width:200px"
+                                          onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <label class="col-sm-3 control-label">活动优惠券数量：</label>
+                               <div class="input-group col-sm-4">
+                                   <input id="card_num" type="number" class="form-control" name="card_num">
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <label class="col-sm-3 control-label">活动参与人数：</label>
+                               <div class="input-group col-sm-4">
+                                   <input id="person_num" type="number" class="form-control" name="person_num">
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <label class="col-sm-3 control-label">活动列表图片：</label>
+                               <div class="input-group col-sm-4">
+                                   <input id="img_url" type="file" class="form-control" name="img_url">
+                                   <div> 图片大小：192*138px</div>
+                               </div>
+                           </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">活动详情：</label>
+                                <div class="input-group col-sm-4">
+                                    <textarea id="detail_info" name="detail_info" style="width: 600px;height: 200px;"></textarea>
+                                    <script type="text/javascript">
+                                        var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                                "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                                "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                        editor.render("detail_info");
+                                    </script>
+                                </div>
+                            </div>
+                           <div class="form-group">
+                               <label class="col-sm-3 control-label">活动规则图片：</label>
+                               <div class="input-group col-sm-4">
+                                   <input id="rule_img_url" type="file" class="form-control" name="rule_img_url" >
+                               </div>
+                           </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">活动规则：</label>
+                                <div class="input-group col-sm-4">
+                                    <textarea id="rule_info" name="rule_info" style="width: 600px;height: 200px;"></textarea>
+                                    <script type="text/javascript">
+                                        var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                                "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                                "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                        editor.render("rule_info");
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">参与方式：</label>
+                                <div class="input-group col-sm-4">
+                                    <textarea id="join_info" name="join_info" style="width: 600px;height: 200px;"></textarea>
+                                    <script type="text/javascript">
+                                        var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                                "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                                "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                        editor.render("join_info");
+                                    </script>
+                                </div>
+                            </div>
+                           <div class="form-group">
+                               <label class="col-sm-3 control-label">是否核验：</label>
+                               <div class="input-group col-sm-4">
+                                   <select class="selectpicker" name="is_checked" id="is_checked" onchange="change_checked()">
+                                       <option value="否" >否</option>
+                                       <option value="是" selected >是</option>
+                                   </select>
+                               </div>
+                           </div>
+                           <div class="form-group checked-show">
+                               <label class="col-sm-3 control-label">核验方式：</label>
+                               <div class="input-group col-sm-4">
+                                   <select class="selectpicker" name="check_method" id="check_method">
+                                       <option value="图片" selected>上传核验图片</option>
+                                       <option value="文字">输入核验文字</option>
+                                   </select>
+                               </div>
+                           </div>
+                           <div class="form-group checked-show">
+                               <label class="col-sm-3 control-label">核验文字内容：</label>
+                               <div class="input-group col-sm-4">
+                                   <input id="check_words" type="text" class="form-control" name="check_words" required="">
+                               </div>
+                           </div>
+                           <div class="form-group">
+                               <label class="col-sm-3 control-label">提交信息字段：</label>
+                               <div class="input-group col-sm-4">
+                                   <select multiple class="selectpicker" name="form_fields[]"  data-live-search="true">
+                                       <option value="1" >姓名</option>
+                                       <option value="2" >性别</option>
+                                       <option value="3" >身份证号</option>
+                                       <option value="4" >邮箱</option>
+                                       <option value="5" >地址</option>
+                                       <option value="6" >工作单位</option>
+                                       <option value="7" >手机号</option>
+                                       <option value="8" >工会名称</option>
+                                   </select>
+                               </div>
+                           </div>
+                            <div class="form-group yq-item">
+                                <div class="col-sm-4 col-sm-offset-6">
+                                    <button class="btn btn-primary" type="submit">提交</button>
+                                    <a href="javascript:window.history.go(-1);" class="btn btn-primary" style="margin-left: 20px;">返回</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            //是否启用 按钮切换
+            $(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",});
+        });
+        function change_checked(){
+            var change_checked = $("#is_checked").val();
+            if(change_checked == '是'){
+                $(".checked-show").show();
+            }else{
+                console.log(change_checked)
+                $(".checked-show").hide();
+            }
+        }
+        //用form表单插件实现表单提交
+        $(function () {
+            $('#form1').ajaxForm({
+                beforeSubmit:  checkForm,  // pre-submit callback
+                success:  complete,  // post-submit callback
+                dataType: 'json'
+            });
+            //表单判断
+            function checkForm(){
+            }
+            //表单提交后返回结果
+            function complete(data){
+                if(data.code == 1){
+                    layer.alert(data.msg, {title: '友情提示', icon: 1},function () {
+                        window.location.href=data.url;
+                    });
+                }else{
+                    layer.msg(data.msg);
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
