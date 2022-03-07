@@ -10,7 +10,6 @@ class Index  extends Controller
     }
     public function index()
     {
-       dump(strpos($activity['check_method'], $check_words) );exi;
         $this->error('not found');
     }
 

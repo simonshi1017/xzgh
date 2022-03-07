@@ -11,7 +11,7 @@ class WeChat  extends Controller
 
     public function code(){
         $app_id      = config('wx_app.app_id');
-        $redirecturl = urlencode("http://xzgh.seodata.com.cn/wechat/get_code");
+        $redirecturl = urlencode("http://".request()->host()."/wechat/get_code");
         $url         = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$app_id.'&redirect_uri='.$redirecturl.'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
         $this->redirect($url);
     }
@@ -29,10 +29,10 @@ class WeChat  extends Controller
                 $data = [
                     'nickname'   => $res['nickname'],
                     'openid'     => $res['openid'],
-                    'language'   => $res['language'],
-                    'city'       => $res['city'],
-                    'country'    => $res['country'],
-                    'unionid'    => $res['unionid'],
+                    'language'   => isset($res['language']) ? $res['language'] : '',
+                    'city'       => isset($res['city']) ? $res['city'] : '',
+                    'country'    => isset($res['country']) ? $res['country'] : '',
+                    'unionid'    => isset($res['unionid']) ? $res['unionid'] : '',
                     'updated_at' => date("Y-m-d H:i:s"),
                 ];
                 if($user_data){

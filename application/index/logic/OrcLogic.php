@@ -41,10 +41,9 @@ class OrcLogic
     /** 获取access
      * @return array|mixed
      */
-    public static function getWordsBool($imgUrl)
+    public static function getWordsBool($imgUrl,$check_words)
     {
         $token  = self::getAccessToken();
-        $arr    = ['您的信息更新成功','您目前所在的工会是：莘庄镇综合分工会。'];
         $url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=' . $token;
         $img = file_get_contents($imgUrl);
         $img = base64_encode($img);
@@ -53,13 +52,18 @@ class OrcLogic
         );
         $res   = request_post($url, $bodys);
         $result = json_decode($res,JSON_UNESCAPED_UNICODE);
-        dump($result);exit;
-        $words = [];
-        foreach ($result['words_result'] as $item){
-            $words[] = $item['words'];
+        $bool = false;
+        if($check_words){
+            foreach ($result['words_result'] as $item){
+                if(strpos($item['words'],$check_words) !== false){
+                    $bool = true;
+                    break;
+                }
+            }
+        }else{
+            $bool = true;
         }
-        $res_arr = array_intersect($arr,$words);
-        return (count($res_arr) ==2) ? true : false;
+        return $bool;
     }
 
 

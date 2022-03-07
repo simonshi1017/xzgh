@@ -15,9 +15,9 @@ class Activity extends Controller
     {
         parent::__construct();
         $user_info = Cookie::get('user_info');
-        if (!$user_info) {
-            $this->redirect('/wechat/code');
-        }
+         if (!$user_info) {
+             $this->redirect('/wechat/code');
+         }
     }
 
     public function index()
@@ -65,12 +65,18 @@ class Activity extends Controller
     public function info()
     {
         $id                   = $_GET['id'];
+        $user_info            = Cookie::get('user_info');
+        $openid               = isset($user_info['openid']) ? $user_info['openid'] : 0;
         $data                 = Db::name('activity')->find($id);
         $data['form_fields']  = explode(',', $data['form_fields']);
         $now                  = date('Y-m-d H:i:s');
         $data['is_available'] = 1;
+        $data['is_exist']     = 0;
         if (($data['begin_at'] > $now || $data['end_at'] < $now)) {
             $data['is_available'] = 0;
+        }
+        if ($this->getExistFormUserOfOpenid($id,$openid)) {
+            $data['is_exist']     = 1;
         }
         $this->assign('data', $data);
         return $this->fetch('info');
@@ -91,16 +97,16 @@ class Activity extends Controller
                     return json(['data' => 0, 'code' => 0, 'msg' => '短信验证码有误！']);
                 };
             }
-            $openid       = isset($user_info['openid']) ? $user_info['openid'] : 0;
-            $activity_id  = $this->request->post('activity_id');
-            $activity     = Db::name('activity')->find($activity_id);
-            $activity['form_fields']  = explode(',', $activity['form_fields']);
-            $check_fields = $this->checkFormFields();
-            foreach ($check_fields as  $item) {
-                if(in_array($item['id'],$activity['form_fields'])){
+            $openid                  = isset($user_info['openid']) ? $user_info['openid'] : 0;
+            $activity_id             = $this->request->post('activity_id');
+            $activity                = Db::name('activity')->find($activity_id);
+            $activity['form_fields'] = explode(',', $activity['form_fields']);
+            $check_fields            = $this->checkFormFields();
+            foreach ($check_fields as $item) {
+                if (in_array($item['id'], $activity['form_fields'])) {
                     $field_val = $this->request->post($item['field_name']);
-                    if(!$field_val){
-                        return json(['data' => 0, 'code' => 0, 'msg' => $item['desc'].'不能为空']);
+                    if (!$field_val) {
+                        return json(['data' => 0, 'code' => 0, 'msg' => $item['desc'] . '不能为空']);
                     }
                 }
             }
@@ -118,13 +124,17 @@ class Activity extends Controller
                 'unionid'     => isset($user_info['unionid']) ? $user_info['unionid'] : 0,
                 'created_at'  => date("Y-m-d H:i:s"),
             ];
-            if (Db::name('user_form')
-                    ->where('activity_id', $activity_id)
-                    ->where('openid', $openid)
-                    ->count() > 0
-            ) {
+            if ($this->getExistFormUserOfOpenid($activity_id,$openid)) {
                 return json(['data' => 0, 'code' => 0, 'msg' => '您已参加过活动！']);
             }
+            /*   $mobile = $this->request->post('mobile');
+               if ($mobile && Db::name('user_form')
+                       ->where('activity_id', $activity_id)
+                       ->where('mobile', $mobile)
+                       ->count() > 0
+               ) {
+                   return json(['data' => 0, 'code' => 0, 'msg' => '您已参加过活动！']);
+               }*/
             $total = Db::name('user_form')->where('activity_id', $activity_id)->count();
             if ($activity['person_num'] <= $total) {
                 return json(['data' => 0, 'code' => 0, 'msg' => '很抱歉，参与人数已满，下次早点来哦~']);
@@ -135,7 +145,7 @@ class Activity extends Controller
                     if (!$check_words) {
                         return json(['data' => 0, 'code' => 0, 'msg' => '请输入核验文字']);
                     }
-                    if ($activity['check_words'] != $check_words) {
+                    if (strpos($check_words, $activity['check_words']) === false) {
                         return json(['data' => 0, 'code' => 0, 'msg' => '验证未通过，请重新提交！']);
                     }
                 } else {
@@ -146,7 +156,7 @@ class Activity extends Controller
                             $data['img_url'] = "user_form\\" . $result['data']['file_path'];
                             $img_url         = getcwd() . "\\upload\\" . $data['img_url'];
                             $img_url         = str_replace('\\', '/', $img_url);
-                            if (!OrcLogic::getWordsBool($img_url)) {
+                            if (!OrcLogic::getWordsBool($img_url, $activity['check_words'])) {
                                 return json(['data' => 0, 'code' => 0, 'msg' => '验证未通过，请重新提交！']);
                             }
                         } else {
@@ -256,6 +266,15 @@ class Activity extends Controller
                 'desc'       => '手机号',
             ],
         ];
+    }
+
+    private function getExistFormUserOfOpenid($activity_id, $openid)
+    {
+        $num = Db::name('user_form')
+            ->where('activity_id', $activity_id)
+            ->where('openid', $openid)
+            ->count();
+        return $num > 0 ? true : false;
     }
 
 }

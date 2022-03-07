@@ -67,6 +67,7 @@
                {$data.join_info}
            </div>
        </div>
+      {eq name="data.is_exist" value="0"}
        <div class="item-btn-div">
            <i class="item-tag">&nbsp;</i>
            <label>提交信息：</label>
@@ -116,7 +117,7 @@
                        {eq name="data.is_checked" value="是"}
                            {eq name="data.check_method" value="文字"}
                                <div class="form-item">
-                                   <label>核验⽂字</label>
+                                   <label>口令</label>
                                    <input type="text" name="words">
                                </div>
                            {else/}
@@ -160,11 +161,16 @@
        </div>
        <div class="item-btn-div">
            {eq name="data.is_available" value="1"}
-               <div class="item-btn" onclick="$('#form1').submit()">立即领取</div>
+               <div class="item-btn" id="item-sub" onclick="sub_form()" >立即领取</div>
              {else/}
                <div class="item-btn-disable">立即领取</div>
            {/eq}
        </div>
+      {else/}
+      <div class="item-btn-div">
+          <div class="item-btn" onclick="location.href='{$data.card_url}'">领取福利</div>
+      </div>
+      {/eq}
   </div>
 </body>
 <script type="text/javascript">
@@ -176,7 +182,6 @@
         });
         //表单判断
         function checkForm(){
-
         }
         //表单提交后返回结果
         function complete(data){
@@ -184,6 +189,7 @@
                 window.location.href=data.url;
             }else{
                 layer.msg(data.msg);
+                $("#item-sub").html('立即领取')
             }
         }
         $(".file-box").click(function () {
@@ -196,7 +202,7 @@
             var pos = Math.max(pos1, pos2)
             filename = filename.substr(pos+1)
             if(filename != ''){
-                $("#file-upload").html(filename)
+                $("#file-upload").html("已上传")
                 $("#file-upload").css('fontSize','8pt')
             }else{
                 $("#file-upload").html("+")
@@ -204,6 +210,12 @@
             }
         });
     });
+    function sub_form() {
+        if($("#item-sub").text() == '立即领取'){
+            $('#form1').submit();
+            $("#item-sub").html('提交中...')
+        }
+    }
     function send_sms() {
         var activity_id  = "{$data.id}";
         var mobile_val   = $("#mobile_dom").val();
