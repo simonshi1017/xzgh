@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/animate.min.css" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/style.min.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/jscal2.css" rel="stylesheet">
+
+    <!--<script src="__JS__/jquery.min.js"></script>-->
+    <script src="__JS__/jquery-1.10.2.js"></script>
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <script src="__JS__/plugins/layer/layer.min.js"></script>
+    <script src="__JS__/jquery.form.js"></script>
+    <script src="__JS__/calendar.js"></script>
+    <script src="__JS__/en.js"></script>
+
+    <link href="__CSS__/bootstrap-select.css" rel="stylesheet">
+    <script src="__JS__/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap-select.js"></script>
+    <script language="javascript" type="text/javascript" src="__JS__/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <link href="__CSS__/viewer.min.css" rel="stylesheet">
+    <script src="__JS__/viewer.min.js"></script>
+    <style type="text/css">
+        .item-date{
+            border: 1px solid #e5e6e7;
+            height: 34px;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>活动发布</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" action="{:url('save');}" method="post" id="form1" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">活动名称：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="name" type="text" class="form-control" name="title" required="" value="{$newsData.title}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">发布日期：</label>
+                            <div class="input-group col-sm-4">
+                                <input class="item-date Wdate form-control" type="text"  name="pubdate" autocomplete="off" id="pubdate" style="width:200px" value="{$newsData.pubdate}"
+                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">图片：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="img_url" type="file" class="form-control" name="img_url">
+                                <div> 图片大小：192*138px</div>
+                                <div class="logo-img">
+                                    <img src="/static/index/images/{$newsData.img_url}" width="80" height="80" style="cursor: pointer"  onclick="showimage(this);">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">活动详情：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea id="content" name="content" style="width: 600px;height: 200px;">{$newsData.content}</textarea>
+                                <script type="text/javascript">
+                                    var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                            "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                            "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                    editor.render("content");
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group yq-item">
+                            <div class="col-sm-4 col-sm-offset-6">
+                                <input type="hidden" name="id" value="{$newsData.id}">
+                                <button class="btn btn-primary" type="submit">提交</button>
+                                <a href="javascript:window.history.go(-1);" class="btn btn-primary" style="margin-left: 20px;">返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        //是否启用 按钮切换
+        $(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",});
+        change_checked();
+    });
+    //用form表单插件实现表单提交
+    $(function () {
+        $('#form1').ajaxForm({
+            beforeSubmit:  checkForm,  // pre-submit callback
+            success:  complete,  // post-submit callback
+            dataType: 'json'
+        });
+        //表单判断
+        function checkForm(){
+        }
+        //表单提交后返回结果
+        function complete(data){
+            if(data.code == 1){
+                layer.alert(data.msg, {title: '友情提示', icon: 1},function () {
+                    window.location.href=data.url;
+                });
+            }else{
+                layer.msg(data.msg);
+            }
+        }
+    });
+    function change_checked(){
+        var change_checked = $("#is_checked").val();
+        if(change_checked == '是'){
+            $(".checked-show").show();
+        }else{
+            console.log(change_checked)
+            $(".checked-show").hide();
+        }
+    }
+    function showimage(item)
+    {
+        var src_img = $(item).attr('src');
+        $("#imgModal").find("#imgInModalID").attr("src",src_img);
+        $("#imgModal").modal();
+    }
+    //关闭
+    function closeImageViewer(){
+        $("#imgModal").modal('hide');
+    }
+</script>
+<!--放大图的imgModal-->
+<div class="modal fade bs-example-modal-lg text-center" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" >
+    <div class="modal-dialog modal-lg" style="display: inline-block; width: auto;">
+        <div class="modal-content">
+            <img  id="imgInModalID"
+                  class="carousel-inner img-responsive img-rounded"
+                  onclick="closeImageViewer()"
+                  onmouseover="this.style.cursor='pointer';this.style.cursor='hand'"
+                  onmouseout="this.style.cursor='default'"
+            />
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>莘庄工会管理后台</title>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>政策汇编</title>
+            <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+            <link href="__CSS__/font-awesome.min.css" rel="stylesheet">
+            <link href="__CSS__/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+            <link href="__CSS__/animate.min.css" rel="stylesheet">
+            <link href="__CSS__/style.min.css" rel="stylesheet">
+            <link href="__CSS__/style.css" rel="stylesheet">
+            <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+        </head>
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>政策新闻列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group clearfix col-sm-1">
+                <a href="{:url('add')}">
+                    <button class="btn btn-outline btn-primary" type="button">信息发布</button>
+                </a>
+            </div>
+            <!--搜索框开始-->
+            <form method="get" class="form-inline pull-right" action="{:url('index');}">
+                <div class="content clearfix m-b">
+                    <div class="form-group">
+                        <label>标题：</label>
+                        <input type="text" class="form-control" name='title' value="{$title}">
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-primary" style="margin-top:5px"  type="submit" value="搜 索">
+                    </div>
+                </div>
+            </form>
+            <!--搜索框结束-->
+            <div class="example-wrap">
+                <div class="example">
+                    <div class="bootstrap-table">
+                        <div class="fixed-table-toolbar"></div>
+                        <div class="fixed-table-container">
+                            <div class="fixed-table-body">
+                                <table id="cusTable" class="table table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th><div class="th-inner ">ID</div></th>
+                                        <th><div class="th-inner ">标题</div></th>
+                                        <th><div class="th-inner ">发布日期</div></th>
+                                        <th><div class="th-inner ">添加时间</div></th>
+                                        <th><div class="th-inner ">操作</div></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="listResult" id="vo" key="k"}
+                                    <tr>
+                                        <td>{$vo.id}</td>
+                                        <td>{$vo.title}</td>
+                                        <td>{$vo.pubdate}</td>
+                                        <td>{$vo.created_at}</td>
+                                        <td style="text-align:center;">
+                                            <a href="{:url('edit',['id'=>$vo['id']]);}">编辑</a> |
+                                            <a href="javascript:void(0)" onclick="dataDel('{$vo.id}')">删除</a>
+                                        </td>
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="page_right">{$page}</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="__JS__/jquery.min.js"></script>
+<script src="__JS__/plugins/layer/layer.min.js"></script>
+<script type="text/javascript">
+    function dataDel(id){
+        layer.confirm('确认删除此信息?', {title:'提示',icon: 3}, function(){
+            $.getJSON("{:url('del')}", {'id':id}, function(res){
+                if(res.code == 1){
+                    layer.alert(res.msg, {title: '友情提示', icon: 1},function () {
+                        window.location.href=res.url;
+                    });
+                }else{
+                    layer.alert(res.msg, {title: '友情提示', icon: 2});
+                }
+            });
+            //关闭所有layer弹出层
+            //layer.closeAll();
+        })
+    }
+</script>
+</body>
+</html>
