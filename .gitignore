@@ -3,6 +3,7 @@
 runtime/
 thinkphp/
 vendor/
-application/database.php
 public/access_token/baidu_token.json
 public/ueditor/php/upload/image/
+application/config.php
+application/database.php
