@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>莘庄工会管理后台</title>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>心愿管理</title>
+            <link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+            <link href="__CSS__/font-awesome.min.css" rel="stylesheet">
+            <link href="__CSS__/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+            <link href="__CSS__/animate.min.css" rel="stylesheet">
+            <link href="__CSS__/style.min.css" rel="stylesheet">
+            <link href="__CSS__/style.css" rel="stylesheet">
+            <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+        </head>
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>心愿管理列表</h5>
+        </div>
+        <div class="ibox-content">
+            <!--搜索框开始-->
+            <form method="get" class="form-inline pull-right" action="{:url('index');}">
+                <div class="content clearfix m-b">
+                    <div class="form-group">
+                        <label>姓名：</label>
+                        <input type="text" class="form-control" name='username' value="{$username}">
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-primary" style="margin-top:5px"  type="submit" value="搜 索">
+                    </div>
+                </div>
+            </form>
+            <!--搜索框结束-->
+            <div class="example-wrap">
+                <div class="example">
+                    <div class="bootstrap-table">
+                        <div class="fixed-table-toolbar"></div>
+                        <div class="fixed-table-container">
+                            <div class="fixed-table-body">
+                                <table id="cusTable" class="table table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th><div class="th-inner ">ID</div></th>
+                                        <th><div class="th-inner ">姓名</div></th>
+                                        <th><div class="th-inner ">地址</div></th>
+                                        <th><div class="th-inner ">职业</div></th>
+                                        <th><div class="th-inner ">工作单位</div></th>
+                                        <th><div class="th-inner ">所属工会</div></th>
+                                        <th><div class="th-inner ">工会会员卡号</div></th>
+                                        <th><div class="th-inner ">心愿名称</div></th>
+                                        <th><div class="th-inner ">手机号</div></th>
+                                        <th><div class="th-inner ">添加时间</div></th>
+                                        <th><div class="th-inner ">更新时间</div></th>
+                                        <th><div class="th-inner ">状态</div></th>
+                                        <th><div class="th-inner ">操作</div></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="listResult" id="vo" key="k"}
+                                    <tr>
+                                        <td>{$vo.id}</td>
+                                        <td>{$vo.username}</td>
+                                        <td>{$vo.address}</td>
+                                        <td>{$vo.occupation}</td>
+                                        <td>{$vo.company}</td>
+                                        <td>{$vo.union_name}</td>
+                                        <td>{$vo.union_card_code}</td>
+                                        <td>{$vo.wish_name}</td>
+                                        <td>{$vo.phone}</td>
+                                        <td>{$vo.created_at}</td>
+                                        <td>{$vo.updated_at}</td>
+                                        <td>
+                                            {switch name="vo.status"}
+                                              {case value="0"}未审核{/case}
+                                              {case value="1"}审核不通过{/case}
+                                              {case value="2"}审核通过，待认领{/case}
+                                            {/switch}
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <a href="{:url('detail',['id'=>$vo['id']]);}">查看</a>
+                                            {eq name="vo.status" value="0"}
+                                              | <a href="javascript:void(0)" onclick="dataReview('{$vo.id}',2)">审核通过</a> |
+                                              <a href="javascript:void(0)" onclick="dataReview('{$vo.id}',1)">审核不通过</a>
+                                            {/eq}
+                                        </td>
+                                    </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="page_right">{$page}</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="__JS__/jquery.min.js"></script>
+<script src="__JS__/plugins/layer/layer.min.js"></script>
+<script type="text/javascript">
+    function dataReview(id,status){
+        var sh_mes ='审核通过'
+        if(status == 1){
+            sh_mes = '审核不通过'
+        }
+        layer.confirm('确认'+sh_mes+'ID为'+id+'心愿信息吗?', {title:'提示',icon: 3}, function(){
+            $.post("{:url('review')}", {'id':id,'status':status}, function(res){
+                if(res.code == 1){
+                    layer.alert(res.msg, {title: '友情提示', icon: 1},function () {
+                        window.location.href=res.url;
+                    });
+                }else{
+                    layer.alert(res.msg, {title: '友情提示', icon: 2});
+                }
+            },'json');
+            //关闭所有layer弹出层
+            //layer.closeAll();
+        })
+    }
+</script>
+</body>
+</html>
