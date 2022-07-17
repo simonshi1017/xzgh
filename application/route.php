@@ -27,6 +27,16 @@ return [
         'save'      => ['Activity/save', ['method' => 'post']],
         'send_code' => ['Activity/sendSmsCode', ['method' => 'post']],
     ],
+    '[wish]'     => [
+        'index'     => ['Wish/index', ['method' => 'get']],
+    ],
+    '[meeting]'     => [
+        'index'     => ['Meeting/index', ['method' => 'get']],
+        'detail'    => ['Meeting/detail', ['method' => 'get']],
+        'info'      => ['Meeting/info', ['method' => 'get']],
+        'save'      => ['Meeting/save', ['method' => 'post']],
+        'send_code' => ['Meeting/sendSmsCode', ['method' => 'post']],
+    ],
     '[captcha]'     => [
         ''   => ['index/captcha', ['method' => 'get']],
     ],

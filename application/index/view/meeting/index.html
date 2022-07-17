@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="__CSS__/css.css" rel="stylesheet" type="text/css"/>
+		
+	</head>
+	<body>
+		<div class="list_class">
+			<ul>
+				{volist name="list" id="vo"}
+				<a href="detail?id={$vo.id}">
+			`		<li class="list_li clearfix">
+						<div class="list_img">
+							<img src="__IMG__/{$vo.img_url}">
+						</div>
+						<div class="list_text">
+							<p class="list_title">{$vo.name}</p>
+							<p class="list_text_p"><span>活动时间：</span>{:date("n月j日 h:i",strtotime($vo['begin_at']));}-{:date("h:i",strtotime($vo['end_at']));}</p>
+							<p class="list_text_p"><span>活动介绍：</span>{:substr(strip_tags($vo['detail_info']),0,50);}</p>
+							<p class="img"><img src="__IMG__/xing.png"/></p>
+						</div>
+					</li>`
+				</a>
+				{/volist}
+				<li class="list_li clearfix">
+					<div class="list_img">
+						<img src="__IMG__/img.png"/>
+					</div>
+					<div class="list_text">
+						<p class="list_title">“工会佳苑 为你而约”，相亲活动等你来参加</p>
+						<p class="list_text_p"><span>活动时间：</span>2022年3月12日 14:00-15:00</p>
+						<p class="list_text_p"><span>活动介绍：</span>天气回暖，天气回暖，万物复苏天气回暖，万物复苏天气回暖，万物复苏天气回暖，万物复苏天气回暖，万物复苏天气回暖，万物复苏</p>
+						<p class="img"><img src="__IMG__/xing1.png"/></p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>

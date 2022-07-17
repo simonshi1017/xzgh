@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动管理</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="__CSS__/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="__CSS__/animate.min.css" rel="stylesheet">
+    <link href="__CSS__/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__CSS__/style.min.css?v=4.1.0" rel="stylesheet">
+    <link href="__CSS__/jscal2.css" rel="stylesheet">
+
+    <!--<script src="__JS__/jquery.min.js"></script>-->
+    <script src="__JS__/jquery-1.10.2.js"></script>
+    <script src="__JS__/plugins/iCheck/icheck.min.js"></script>
+    <script src="__JS__/plugins/layer/layer.min.js"></script>
+    <script src="__JS__/jquery.form.js"></script>
+    <script src="__JS__/calendar.js"></script>
+    <script src="__JS__/en.js"></script>
+
+    <link href="__CSS__/bootstrap-select.css" rel="stylesheet">
+    <script src="__JS__/bootstrap.min.js"></script>
+    <script src="__JS__/bootstrap-select.js"></script>
+    <script language="javascript" type="text/javascript" src="__JS__/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <link href="__CSS__/viewer.min.css" rel="stylesheet">
+    <script src="__JS__/viewer.min.js"></script>
+    <style type="text/css">
+        .item-date{
+            border: 1px solid #e5e6e7;
+            height: 34px;
+        }
+    </style>
+</head>
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>活动发布</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" action="{:url('save');}" method="post" id="form1" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">活动标题：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="name" type="text" class="form-control" name="name" required="" value="{$meetingData.name}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">开始时间：</label>
+                            <div class="input-group col-sm-4">
+                                <input class="item-date Wdate form-control" type="text"  name="begin_at" autocomplete="off" id="begin_at" style="width:200px" value="{$meetingData.begin_at}"
+                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">结束时间：</label>
+                            <div class="input-group col-sm-4">
+                                <input class="item-date Wdate form-control" type="text"  name="end_at" autocomplete="off" id="end_at" style="width:200px" value="{$meetingData.end_at}"
+                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">是否需要报名：</label>
+                            <div class="input-group col-sm-4">
+                                <select class="selectpicker" name="is_enter" id="is_enter" onchange="change_checked()">
+                                    <option value="否" {eq name="meetingData.is_enter" value="否"} selected {/eq} >否</option>
+                                    <option value="是" {eq name="meetingData.is_enter" value="是"} selected {/eq} >是</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">活动参与人数：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="person_num" type="number" class="form-control" name="person_num" value="{$meetingData.person_num}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">活动列表图片：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="img_url" type="file" class="form-control" name="img_url">
+                                <div> 图片大小：192*138px</div>
+                                <div class="logo-img">
+                                    <img src="/static/index/images/{$meetingData.img_url}" width="80" height="80" style="cursor: pointer"  onclick="showimage(this);">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">活动banner图片：</label>
+                            <div class="input-group col-sm-4">
+                                <input id="banner_url" type="file" class="form-control" name="banner_url">
+                                <div> 图片大小：192*138px</div>
+                                <div class="logo-img">
+                                    <img src="/static/index/images/{$meetingData.banner_url}" width="80" height="80" style="cursor: pointer"  onclick="showimage(this);">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">竞赛通知：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea id="race_notice" name="race_notice" style="width: 600px;height: 200px;">{$meetingData.race_notice}</textarea>
+                                <script type="text/javascript">
+                                    var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                            "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                            "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                    editor.render("race_notice");
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">活动介绍：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea id="detail_info" name="detail_info" style="width: 600px;height: 200px;">{$meetingData.detail_info}</textarea>
+                                <script type="text/javascript">
+                                    var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                            "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                            "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                    editor.render("detail_info");
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">活动规则：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea id="rule_info" name="rule_info" style="width: 600px;height: 200px;">{$meetingData.rule_info}</textarea>
+                                <script type="text/javascript">
+                                    var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                            "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                            "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                    editor.render("rule_info");
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">个人项目：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea id="personal_item" name="personal_item" style="width: 600px;height: 200px;">{$meetingData.personal_item}</textarea>
+                                <script type="text/javascript">
+                                    var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                            "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                            "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                    editor.render("personal_item");
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">团体项目：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea id="group_item" name="group_item" style="width: 600px;height: 200px;">{$meetingData.group_item}</textarea>
+                                <script type="text/javascript">
+                                    var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                            "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                            "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                    editor.render("group_item");
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">参与方式：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea id="join_info" name="join_info" style="width: 600px;height: 200px !important;">{$meetingData.join_info}</textarea>
+                                <script type="text/javascript">
+                                    var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                            "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                            "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                    editor.render("join_info");
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">活动补充说明：</label>
+                            <div class="input-group col-sm-4">
+                                <textarea id="extra_info" name="extra_info" style="width: 600px;height: 200px !important;">{$meetingData.extra_info}</textarea>
+                                <script type="text/javascript">
+                                    var editor = new UE.ui.Editor({initialContent:'',toolbars:[["FontSize","fullscreen","source","undo","redo","bold","Italic","Underline","|",
+                                            "StrikeThrough","Horizontal","Date","FontFamily","FontSize","LineHeight","CustomStyle",
+                                            "JustifyLeft", "JustifyRight", "JustifyCenter","RemoveFormat",'simpleupload']]});
+                                    editor.render("extra_info");
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">提交信息字段：</label>
+                            <div class="input-group col-sm-4">
+                                <select multiple class="selectpicker" name="form_fields[]"  data-live-search="true">
+                                    <option value="1" {if condition="in_array(1,$meetingData['form_fields'])"} selected {/if} >姓名</option>
+                                    <option value="2" {if condition="in_array(2,$meetingData['form_fields'])"} selected {/if} >性别</option>
+                                    <option value="3" {if condition="in_array(3,$meetingData['form_fields'])"} selected {/if} >手机号</option>
+                                    <option value="4" {if condition="in_array(4,$meetingData['form_fields'])"} selected {/if} >身份证号</option>
+                                    <option value="5" {if condition="in_array(5,$meetingData['form_fields'])"} selected {/if} >地址</option>
+                                    <option value="6" {if condition="in_array(6,$meetingData['form_fields'])"} selected {/if} >邮箱</option>
+                                    <option value="7" {if condition="in_array(7,$meetingData['form_fields'])"} selected {/if} >年龄</option>
+                                    <option value="8" {if condition="in_array(8,$meetingData['form_fields'])"} selected {/if} >出生日期</option>
+                                    <option value="9" {if condition="in_array(9,$meetingData['form_fields'])"} selected {/if} >工作单位</option>
+                                    <option value="10" {if condition="in_array(10,$meetingData['form_fields'])"} selected {/if} >所属工会</option>
+                                    <option value="11" {if condition="in_array(11,$meetingData['form_fields'])"} selected {/if} >工会卡号</option>
+                                    <option value="12" {if condition="in_array(12,$meetingData['form_fields'])"} selected {/if} >个人介绍</option>
+                                    <option value="13" {if condition="in_array(13,$meetingData['form_fields'])"} selected {/if} >择偶要求</option>
+                                    <option value="14" {if condition="in_array(14,$meetingData['form_fields'])"} selected {/if} >个人生活照</option>
+                                    <option value="15" {if condition="in_array(15,$meetingData['form_fields'])"} selected {/if} >报名人数</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group yq-item">
+                            <div class="col-sm-4 col-sm-offset-6">
+                                <input type="hidden" name="id" value="{$meetingData.id}">
+                                <button class="btn btn-primary" type="submit">提交</button>
+                                <a href="javascript:window.history.go(-1);" class="btn btn-primary" style="margin-left: 20px;">返回</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        //是否启用 按钮切换
+        $(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",});
+        change_checked();
+    });
+    //用form表单插件实现表单提交
+    $(function () {
+        $('#form1').ajaxForm({
+            beforeSubmit:  checkForm,  // pre-submit callback
+            success:  complete,  // post-submit callback
+            dataType: 'json'
+        });
+        //表单判断
+        function checkForm(){
+        }
+        //表单提交后返回结果
+        function complete(data){
+            if(data.code == 1){
+                layer.alert(data.msg, {title: '友情提示', icon: 1},function () {
+                    window.location.href=data.url;
+                });
+            }else{
+                layer.msg(data.msg);
+            }
+        }
+    });
+    function change_checked(){
+        var change_checked = $("#is_checked").val();
+        if(change_checked == '是'){
+            $(".checked-show").show();
+        }else{
+            console.log(change_checked)
+            $(".checked-show").hide();
+        }
+    }
+    function showimage(item)
+    {
+        var src_img = $(item).attr('src');
+        $("#imgModal").find("#imgInModalID").attr("src",src_img);
+        $("#imgModal").modal();
+    }
+    //关闭
+    function closeImageViewer(){
+        $("#imgModal").modal('hide');
+    }
+</script>
+<!--放大图的imgModal-->
+<div class="modal fade bs-example-modal-lg text-center" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" >
+    <div class="modal-dialog modal-lg" style="display: inline-block; width: auto;">
+        <div class="modal-content">
+            <img  id="imgInModalID"
+                  class="carousel-inner img-responsive img-rounded"
+                  onclick="closeImageViewer()"
+                  onmouseover="this.style.cursor='pointer';this.style.cursor='hand'"
+                  onmouseout="this.style.cursor='default'"
+            />
+        </div>
+    </div>
+</div>
+</body>
+</html>
