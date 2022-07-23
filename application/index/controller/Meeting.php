@@ -51,9 +51,9 @@ class Meeting extends Controller
         if (($data['begin_at'] > $now || $data['end_at'] < $now)) {
             $data['is_available'] = 0;
         }
-        if ($this->getExistFormUserOfOpenid($id,$openid)) {
+       /* if ($this->getExistFormUserOfOpenid($id,$openid)) {
             $data['is_exist']     = 1;
-        }
+        }*/
         $this->assign('data', $data);
         return $this->fetch('info');
     }

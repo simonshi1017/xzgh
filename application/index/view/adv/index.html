@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		  content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title></title>
+	<link href="__CSS__/css.css?version={:time();}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="xin-activity_class">
+	<div class="wel-banner">
+		<img src="__IMG__/banner.png" alt="">
+	</div>
+	<div class="ac-list">
+		<ul class="clearfix">
+			{volist name="list" id="vo"}
+			<li>
+				<a href="{$vo.url}">
+				<p><img src="__IMG__/{$vo.img_url}" alt=""></p>
+				<p>{$vo.name}</p>
+				</a>
+			</li>
+			{/volist}
+		</ul>
+	</div>
+</div>
+</body>
+</html>

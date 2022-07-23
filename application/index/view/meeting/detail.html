@@ -1,26 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
-    <title>详情页</title>
-    <link rel="stylesheet" href="__CSS__/detail.css?version={:time();}">
-    <style type="text/css">
-        .help-block {
-            height: 10px;
-        }
-    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="__CSS__/css.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-  <div class="content">
-       <h3 class="item-title">{$data.name}</h3>
-       <div class="item-btn-div">
-           <div>
-               {$data.detail_info}
-           </div>
-           <p class="help-block"></p>
-           <div class="item-btn" onclick="location.href='info?id={$data.id}'">马上领取福利</div>
-       </div>
-  </div>
+<div class="content_class">
+    <h3>{$data.name}</h3>
+    <p>{$data.detail_info}</p>
+    <a href="info.html?id={$data.id}">
+    <div class="signBtn">马上报名</div>
+    </a>
+</div>
 </body>
 </html>

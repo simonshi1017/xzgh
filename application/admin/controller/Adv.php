@@ -122,7 +122,7 @@ class Adv extends Common
                         if ($img_url) {
                             $result = model('AdvModel')->uploadFile($img_url);
                             if ($result['code'] == 0) {
-                                $data['img_url'] = "news_logo\\" . $result['data']['file_path'];
+                                $data['img_url'] = "adv_logo\\" . $result['data']['file_path'];
                             }
                         }
                         $insertId = Db::name('adv')->insertGetId($data);

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title></title>
+    <link href="__CSS__/css.css?version={:time();}" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+<div class="welfare-list-class">
+    <ul>
+        {volist name="list" id="vo"}
+        <li class="welfare-list_li clearfix">
+            <a href="detail?id={$vo.id}">
+                <div class="list_img">
+                    <img src="__IMG__/{$vo.img_url}"/>
+                </div>
+                <div class="list_text">
+                    <p class="list_title">{$vo.title}</p>
+                    <div class="positon-class">
+                        <div class="date-and-state">
+                            <p>{$vo.pubdate}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        {/volist}
+    </ul>
+</div>
+</body>
+</html>

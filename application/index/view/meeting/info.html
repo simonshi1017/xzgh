@@ -1,261 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
-    <title>活动规则</title>
-    <link href="/static/admin/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/static/admin/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
-    <link href="/static/admin/css/animate.min.css" rel="stylesheet">
-    <link href="/static/admin/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
-    <script src="__JS__/jquery-1.7.1.min.js"></script>
-    <script src="__JS__/jquery.form.js"></script>
-    <script src="/static/admin/js/plugins/layer/layer.min.js"></script>
-    <link rel="stylesheet" href="__CSS__/info.css?version={:time();}">
-    <style type="text/css">
-        .captcha-item{
-            display: inline-block;
-            margin-left: -10px;
-        }
-        .captcha-item input{
-            display: inline-block;
-        }
-        .verify{
-            width: 80px;
-            display: inline-block;
-            margin-left: 2px;
-            margin-bottom: -4px;
-        }
-        .send-sms{
-            display: inline-block;
-            border-radius: 2px;
-            border: 5px #C9C9C9 solid;
-            background-color: #C9C9C9;
-            text-indent: 0;
-            min-width: 90px;
-            height: 16px;
-            text-align: center;
-            vertical-align: center;
-        }
-    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <link rel="stylesheet" href="__CSS__/assets/css/amazeui.min.css" />
+    <link rel="stylesheet" href="__CSS__/assets/css/admin.css">
+    <link href="__CSS__/css.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-  <div class="content">
-      {notempty name="data.rule_img_url"}
-       <div class="item-logo">
-           <img src="__IMG__/{$data.rule_img_url}" class="item-logo-img" width="100%">
-       </div>
-      {/notempty}
-       <div class="item-btn-div">
-           <i class="item-tag">&nbsp;</i>
-           <label>活动时间：</label>
-           <div class="item-content">
-               <p>{$data.begin_at} - {$data.end_at}</p>
-           </div>
-       </div>
-       <div class="item-btn-div">
-           <i class="item-tag">&nbsp;</i>
-           <label>活动规则：</label>
-           <div class="item-content">
-               {$data.rule_info}
-           </div>
-       </div>
-       <div class="item-btn-div">
-           <i class="item-tag">&nbsp;</i>
-           <label>参与方式：</label>
-           <div class="item-content">
-               {$data.join_info}
-           </div>
-       </div>
-      {eq name="data.is_exist" value="0"}
-       <div class="item-btn-div">
-           <i class="item-tag">&nbsp;</i>
-           <label>提交信息：</label>
-           <div class="item-content">
-               <div class="form-content">
-                   <form action="/activity/save" method="post" id="form1" enctype="multipart/form-data">
-                       {if condition="in_array(1,$data['form_fields'])"}
-                           <div class="form-item">
-                               <label>姓名</label>
-                               <input type="text" name="realname">
-                           </div>
-                       {/if}
-                       {if condition="in_array(2,$data['form_fields'])"}
-                           <div class="form-item">
-                               <label>性别</label>
-                               <select name="sex">
-                                   <option value="">请选择</option>
-                                   <option value="男">男</option>
-                                   <option value="女">女</option>
-                               </select>
-                           </div>
-                       {/if}
-                       {if condition="in_array(3,$data['form_fields'])"}
-                           <div class="form-item">
-                               <label>身份证号</label>
-                               <input type="text" name="code">
-                           </div>
-                       {/if}
-                       {if condition="in_array(4,$data['form_fields'])"}
-                           <div class="form-item">
-                               <label>邮箱</label>
-                               <input type="text" name="email">
-                           </div>
-                       {/if}
-                       {if condition="in_array(5,$data['form_fields'])"}
-                           <div class="form-item">
-                               <label>地址</label>
-                               <input type="text" name="address">
-                           </div>
-                       {/if}
-                       {if condition="in_array(6,$data['form_fields'])"}
-                           <div class="form-item">
-                               <label>工作单位</label>
-                               <input type="text" name="company">
-                           </div>
-                       {/if}
-                       {eq name="data.is_checked" value="是"}
-                           {eq name="data.check_method" value="文字"}
-                               <div class="form-item">
-                                   <label>口令</label>
-                                   <input type="text" name="words">
-                               </div>
-                           {else/}
-                               <div class="form-item">
-                                   <label>图片</label>
-                                   <button class="file-box" id="file-upload" type="button">+</button>
-                                   <input type="file" id="file-input" name="img_url" hidden>
-                                   <div class="clear_both">(注：请上传入会成功截图)</div>
-                               </div>
-                           {/eq}
-                       {/eq}
+<div class="sign-form">
+    <form class="am-form">
+        <fieldset>
+            <h3>工会家园，相亲活动等你来参加</h3>
+            <div class="formClass">
+                <div class="am-form-group radioClass">
+                    <label class="am-radio-inline">
+                        <input type="radio" value="" name="docInlineRadio"> 个人报名
+                    </label>
+                    <label class="am-radio-inline">
+                        <input type="radio" name="docInlineRadio"> 团体报名
+                    </label>
+                </div>
+                <div class="am-form-group">
+                    <label for="doc-ipt-email-1">姓名：</label>
+                    <input type="text" name="realname">
+                </div>
+                <div class="am-form-group">
+                    <label for="doc-select-1">性别：</label>
+                    <select id="doc-select-1" name="sex">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                    <span class="am-form-caret"></span>
+                </div>
+                <div class="am-form-group">
+                    <label for="doc-ipt-email-1">学历：</label>
+                    <input type="text" class="inputClass" name="education">
+                </div>
+                <div class="am-form-group">
+                    <label for="doc-ipt-email-1">工作单位：</label>
+                    <input type="text" class="inputClass" name="company">
+                </div>
+                <div class="am-form-group">
+                    <label>个人介绍：</label>
+                    <textarea class="" rows="3" name="introduction"></textarea>
+                </div>
+                <div class="am-form-group">
+                    <label>择偶要求：</label>
+                    <textarea class="" rows="3" name="mate_require"></textarea>
+                </div>
+                <div class="am-form-group">
+                    <label>个人生活照(最多3张)：</label>
+                    <div class="imgupload clearfix">
+                        <div class="imgupload-text"></div>
+                        <div class="imgupload-text"></div>
+                        <div class="imgupload-text"></div>
+                        <div class="imgupload-text">+点击上传</div>
+                    </div>
 
-                       {if condition="in_array(7,$data['form_fields'])"}
-                          <div class="form-item">
-                               <label>手机号</label>
-                               <input type="text" name="mobile" id="mobile_dom">
-                          </div>
-                          <div class="form-item">
-                              <label>验证码</label>
-                              <div class="captcha-item">
-                                  <input type="text" name="captcha_code" id="captcha_code" style="width: 60px;">
-                                  <img src="{:captcha_src()}" class="verify" onclick="javascript:this.src='{:captcha_src()}?rand='+Math.random()" >
-                              </div>
-                          </div>
-                          <div class="form-item">
-                              <label>短信验证码</label>
-                               <input type="text" name="sms_code" id="sms_code" style="width: 60px;">
-                               <span class="send-sms" id="send-sms-dom" onclick="send_sms()" >获取验证码</span>
-                          </div>
-                       {/if}
-                       {if condition="in_array(8,$data['form_fields'])"}
-                       <div class="form-item">
-                           <label>工会名称</label>
-                           <input type="text" name="union_name">
-                       </div>
-                       {/if}
-                       <input type="hidden" id="activity_id" name="activity_id" value="{$data.id}">
-                   </form>
-               </div>
-           </div>
-       </div>
-       <div class="item-btn-div">
-           {eq name="data.is_available" value="1"}
-               <div class="item-btn" id="item-sub" onclick="sub_form()" >立即领取</div>
-             {else/}
-               <div class="item-btn-disable">立即领取</div>
-           {/eq}
-       </div>
-      {else/}
-      <div class="item-btn-div">
-          <div class="item-btn" onclick="location.href='{$data.card_url}'">领取福利</div>
-      </div>
-      {/eq}
-  </div>
+                </div>
+                <div class="am-form-group">
+                    <label >手机号：</label>
+                    <input type="text" class="inputClass" >
+                </div>
+                <div class="am-form-group imgCodeBox clearfix">
+                    <div class="left">
+                        <label >图片验证码：</label>
+                        <input type="text" class="inputClass" >
+                    </div>
+                    <div class="right">
+                        <input type="text" class="inputClass" value="3456">
+                    </div>
+                </div>
+                <div class="am-form-group imgCodeBox clearfix">
+                    <div class="left">
+                        <label >短信验证码：</label>
+                        <input type="text" class="inputClass" >
+                    </div>
+                    <div class="right1">
+                        <input type="text" class="inputClass" value="获取短信验证码">
+                    </div>
+                </div>
+
+                <p style="text-align:center;margin-top: 5rem;"><button type="submit" class="am-btn  sumitBtn">提交信息</button></p>
+            </div>
+
+        </fieldset>
+    </form>
+</div>
 </body>
-<script type="text/javascript">
-    $(function () {
-        $('#form1').ajaxForm({
-            beforeSubmit: checkForm,  // pre-submit callback
-            success:  complete,  // post-submit callback
-            dataType: 'json'
-        });
-        //表单判断
-        function checkForm(){
-        }
-        //表单提交后返回结果
-        function complete(data){
-            if(data.code == 1){
-                window.location.href=data.url;
-            }else{
-                layer.msg(data.msg);
-                $("#item-sub").html('立即领取')
-            }
-        }
-        $(".file-box").click(function () {
-            $("#file-input").click();
-        });
-        $('#file-input').change(function () {
-            var filename = $('#file-input').val();
-            var pos2 = filename.lastIndexOf("\\");
-            var pos1 = filename.lastIndexOf('/')
-            var pos = Math.max(pos1, pos2)
-            filename = filename.substr(pos+1)
-            if(filename != ''){
-                $("#file-upload").html("已上传")
-                $("#file-upload").css('fontSize','8pt')
-            }else{
-                $("#file-upload").html("+")
-                $("#file-upload").css('fontSize','50pt')
-            }
-        });
-    });
-    function sub_form() {
-        if($("#item-sub").text() == '立即领取'){
-            $('#form1').submit();
-            $("#item-sub").html('提交中...')
-        }
-    }
-    function send_sms() {
-        var activity_id  = "{$data.id}";
-        var mobile_val   = $("#mobile_dom").val();
-        var captcha_code = $("#captcha_code").val();
-        var obj = $("#send-sms-dom")
-       if(!mobile_val){
-            layer.msg('请填写手机号');
-            return false;
-       }
-        var reg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-        if(!reg.test(mobile_val)){
-            layer.msg('请输入有效的手机号');
-            return false;
-        }
-       if(!captcha_code){
-            layer.msg('请填写验证码');
-            return false;
-       }
-        $.post("/activity/send_code",{'mobile':mobile_val,'captcha_code':captcha_code,'activity_id':activity_id},function (data) {
-            layer.msg(data.msg);
-            if(data.code == 1){
-                setTime(obj); //开始倒计时
-            }
-        })
-    }
-    //60s倒计时实现逻辑
-    var countdown = 60;
-    function setTime(obj) {
-        if (countdown == 0) {
-            obj.prop('disabled', false);
-            obj.text("获取验证码");
-            countdown = 60;//60秒过后button上的文字初始化,计时器初始化;
-            return;
-        } else {
-            obj.prop('disabled', true);
-            obj.text("("+countdown+"s)后重新发送") ;
-            countdown--;
-        }
-        setTimeout(function() { setTime(obj) },1000) //每1000毫秒执行一次
-    }
-
-</script>
 </html>

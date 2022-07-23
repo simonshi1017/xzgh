@@ -37,6 +37,13 @@ return [
         'save'      => ['Meeting/save', ['method' => 'post']],
         'send_code' => ['Meeting/sendSmsCode', ['method' => 'post']],
     ],
+    '[adv]'     => [
+        'index'     => ['Adv/index', ['method' => 'get']],
+    ],
+    '[policy_news]'     => [
+        'index'     => ['PolicyNews/index', ['method' => 'get']],
+        'detail'     => ['PolicyNews/detail', ['method' => 'get']],
+    ],
     '[captcha]'     => [
         ''   => ['index/captcha', ['method' => 'get']],
     ],
